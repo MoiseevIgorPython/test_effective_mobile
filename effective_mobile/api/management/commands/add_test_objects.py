@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
-from users.models import CustomUser
+
 from books.models import Books
+from users.models import CustomUser
 
 
 class Command(BaseCommand):

@@ -1,8 +1,9 @@
-from django.db import models
-from django.contrib.auth import get_user_model
-import jwt
-from dotenv import load_dotenv
 import os
+
+import jwt
+from django.contrib.auth import get_user_model
+from django.db import models
+from dotenv import load_dotenv
 
 load_dotenv()
 

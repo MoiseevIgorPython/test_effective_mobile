@@ -1,15 +1,11 @@
-from django.contrib.auth import get_user_model, login, logout, authenticate
-
-from api.serializers import UserSerializer
-
+from django.contrib.auth import authenticate, get_user_model, login, logout
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from api.serializers import CreateUserSerializer, UpdateUserSerializer
 from rest_framework.response import Response
-from rest_framework import status
 
+from api.serializers import CreateUserSerializer, UpdateUserSerializer, UserSerializer
 from auth.models import CustomToken
-
 
 User = get_user_model()
 

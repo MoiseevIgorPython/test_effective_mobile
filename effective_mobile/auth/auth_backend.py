@@ -1,6 +1,6 @@
 from django.contrib.auth import backends, get_user_model
-from .models import CustomToken
 
+from .models import CustomToken
 
 User = get_user_model()
 

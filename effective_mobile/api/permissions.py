@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
-from users.models import CustomUser
+
 from books.models import Books
+from users.models import CustomUser
 
 
 class OnlyAuthor(BasePermission):
