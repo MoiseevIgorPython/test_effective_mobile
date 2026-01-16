@@ -2,6 +2,7 @@ from rest_framework.permissions import BasePermission
 from users.models import CustomUser
 from books.models import Books
 
+
 class OnlyAuthor(BasePermission):
     """Доступ владельцу."""
 
