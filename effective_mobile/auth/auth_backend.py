@@ -11,8 +11,14 @@ class TokenAuthenticationBackend(backends.BaseBackend):
     def authenticate(self, request, token=None):
         if not token:
             return None
-        custom_token = CustomToken.objects.get(token=token)
-        return custom_token.user
+        try:
+            custom_token = CustomToken.objects.select_related('user_id').get(token=token)
+            return custom_token.user_id
+        except CustomToken.DoesNotExist:
+            return None
 
     def get_user(self, user_id):
-        return User.objects.get(id=user_id)
+        try:
+            return User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return None

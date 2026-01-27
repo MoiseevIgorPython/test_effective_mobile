@@ -84,7 +84,7 @@ def delete_me(request):
     user = request.user
     user.is_active = False
     user.save()
-    CustomToken.objects.filter(user_id_id=user).delete()
+    CustomToken.objects.filter(user_id=user).delete()
     logout(request)
     return Response({"message": "Вы удалены (Ваш объект User не активен)"})
 
@@ -95,23 +95,20 @@ def login_user(request):
     email = request.data.get('email')
     password = request.data.get('password')
     user = authenticate(request, email=email, password=password)
-    if user is not None:
-        token_exist = CustomToken.objects.filter(user_id_id=user.id).first()
-        if token_exist is not None:
-            login(request, user)
-            return Response(data={"message": "Вы аутентифицированы",
-                                  "user": {"username": user.username,
-                                           "email": user.email,
-                                           "name": user.name}},  # UserSerializer(user).data},
-                            status=status.HTTP_200_OK)
-        return Response({"message": "Нет токена"})
-    return Response({"message": "Пользователь не найден"},
+    if user is not None and user.is_active:
+        login(request, user)
+        return Response(data={"message": "Вы аутентифицированы",
+                              "user": {"username": user.username,
+                                       "email": user.email,
+                                       "name": user.name}},
+                        status=status.HTTP_200_OK)
+    return Response({"message": "Пользователь не найден или неактивен"},
                     status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 def logout_user(request):
-    CustomToken.objects.get(user_id_id=request.user).delete()
+    CustomToken.objects.filter(user_id=request.user).delete()
     logout(request)
     return Response({"message": "Вы вышли из системы."})
 
