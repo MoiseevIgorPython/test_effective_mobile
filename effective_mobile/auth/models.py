@@ -1,14 +1,15 @@
 import os
 
 import jwt
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from dotenv import load_dotenv
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'my_secret_key')
-ALGORITHM = os.getenv('ALGORITHM', '')
+SECRET_KEY = os.getenv('SECRET_KEY', settings.SECRET_KEY)
+ALGORITHM = os.getenv('ALGORITHM', 'HS256')
 
 
 User = get_user_model()
@@ -18,7 +19,7 @@ class CustomToken(models.Model):
     """Модель токена."""
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    token = models.CharField(max_length=64, unique=True)
+    token = models.CharField(max_length=255, unique=True)
 
     @classmethod
     def generate_token(cls, user):

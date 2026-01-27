@@ -1,9 +1,8 @@
 asgiref==3.11.0
 bcrypt==5.0.0
-Django==6.0.1
+Django==5.1.5
 django-extensions==4.1
 djangorestframework==3.16.1
-dotenv==0.9.9
 pip==24.0
 PyJWT==2.10.1
 python-dotenv==1.2.1

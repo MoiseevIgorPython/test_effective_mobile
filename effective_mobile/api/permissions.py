@@ -8,13 +8,17 @@ class OnlyAuthor(BasePermission):
     """Доступ владельцу."""
 
     def has_permission(self, request, view):
-        if request.method == 'GET':
-            book_id = request.parser_context.get('kwargs', {}).get('book_id')
-            if not book_id:
-                return False
-            book = Books.objects.get(id=book_id, is_published=True)
-            return book.author_id == request.user.id
-        return False
+        book_id = request.parser_context.get('kwargs', {}).get('book_id')
+        if not book_id:
+            return True
+        try:
+            book = Books.objects.get(id=book_id)
+        except Books.DoesNotExist:
+            return False
+        return book.author == request.user
+
+    def has_object_permission(self, request, view, obj):
+        return obj.author == request.user
 
 
 class OnlyModeratorOrAdmin(BasePermission):

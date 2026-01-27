@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from django.utils.deprecation import MiddlewareMixin
 
 from .auth_backend import TokenAuthenticationBackend
@@ -13,5 +14,4 @@ class TokenAuthMiddleware(MiddlewareMixin):
             backend = TokenAuthenticationBackend()
             user = backend.authenticate(request, token=token)
 
-            if user:
-                request.user = user
+            request.user = user if user else AnonymousUser()
